@@ -1,40 +1,41 @@
 <?php
 
-$dinheiro = $_POST['value'];
+$value = $_POST['value'];
+$juros= $_POST['pct'];
 $tempo = $_POST['date'];
-$pct= $_POST['pct'];
 
+echo $value;
 require_once 'interestCalculator.php';
 
 // Instanciando o objeto
 
-$juros = new Main();
+$handleCalc = new Main();
 
-$juros->setDataFinal($tempo);
-$juros->setDinheiro($dinheiro);
-$juros->setPctJuros($pct);
+$data = $handleCalc->calc($value, $juros, $tempo);
 
-$juros->CalcJurosSimples();
-$juros->CalcJurosCompostos();
+if(!$data){
+	echo "Dados de entrada inválidos!";
+}else{
 
 echo "<h2>Dados Iniciais</h2><br/>";
 
-echo "Valor: R$ " . $juros->getValue() . "</br>Taxa de juros: " . $juros->getPctJuros() * 100 ."% ao mês</br>";
-echo "Data Inicial: " . $juros->getInitialDate() . "</br>Data Final: " . $juros->getFinalDate()."</br>";
-echo "Meses: " . $juros->getTempo() . "</br>";
+echo "Valor: R$ " . $data['valorPrincipal'];
+echo "</br>Taxa de juros: " . $data['txJuros'] ." % ao mês</br>";
+echo "Data Inicial: " .  $data['dtAtual']  . "</br>Data Final: " .  $data['dtVenc']  ."</br>";
+echo "Meses: " .  $data['meses']  . "</br>";
 
 
 echo "<h2>Juros Simples</h2><br/>";
 
-echo "Juros: ". $juros->getJurosSimples() . " reais</br> ";
-echo "Valor Total: R$" . $juros->getDividaSimples() . " reais </br>";
-echo "Parcelas mensais: R$" . number_format((int)$juros->getJurosSimples() / $juros->getTempo(), 2,',','.') ." reais por mês ao longo de " . $juros->getTempo() . " meses.";
+echo "Juros: ". $data['jurosSimples'] . " reais</br> ";
+echo "Valor Total: R$" . $data['totalJurosSimples'] . " reais </br>";
+echo "Parcelas mensais: R$" . number_format((int)$data['jurosSimples'] / $data['meses'], 2,',','.') ." reais por mês ao longo de " . $data['meses'] . " meses.";
 
 
 echo "<h2>Juros Compostos</h2></br>";
 
-echo "Juros: ". $juros->getJurosCompostoa() . " reais</br>";
-echo "Valor Total: R$" . $juros->getDividaComposta() . " reais </br>";
-
+echo "Juros: ". $data['jurosCompostos'] . " reais</br>";
+echo "Valor Total: R$" . $data['totalJurosCompostos'] . " reais </br>";
+};
 
 ?>

@@ -9,9 +9,9 @@
 </head>
 <body>
     <form action="resultado.php" method="POST">
-        <p>Insira o valor incial:<input type="number" name="value" /></p>
-        <p>Insira a data final:<input type="date" name="date" /></p>
-        <p>Insira a porcentagem de juros:<input type="number" placeholder="Porcentagem Juros" name="pct" /></p>
+        <p>Insira o valor incial:<input type="number" step="0.01" name="value" required/></p>
+        <p>Insira a data final:<input type="date" name="date" required/></p>
+        <p>Insira a porcentagem de juros:<input type="number" placeholder="10" name="pct" required/></p>
         <input type='submit' value='Calcular' />
     </form>
 </body>
